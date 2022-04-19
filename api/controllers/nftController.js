@@ -3,8 +3,15 @@
 var mongoose = require('mongoose')
 var NFT = mongoose.model('nft');
 const fs = require('fs')
-const {create} = require('ipfs-http-client')
-const ipfs = create('http://localhost:5001')
+const FormData = require('form-data');
+
+const axios = require('axios');
+require('dotenv').config();
+
+delete process.env['http_proxy'];
+delete process.env['HTTP_PROXY'];
+delete process.env['https_proxy'];
+delete process.env['HTTPS_PROXY'];
 
 function getDateName() {
 	let curDate = new Date()
@@ -23,31 +30,40 @@ function getDateName() {
 }
 
 exports.create_a_nft = async function(req, res) {
-	let fileName = req.body.name + '_' + getDateName() + '.jpeg'
+	let fileName = req.body.title + '_' + getDateName() + '.jpeg'
 	let filePath = process.env.PWD + '/files/' + fileName 
 	
 	let imageFile = req.files.file;
-	imageFile.mv(filePath, async (err) => {
+	await imageFile.mv(filePath, async (err) => {
 		if (err) {
 			console.log('Error: failed to download file')
 			return res.status(500).send(err);
 		}
 	});
 
-	req.body.imgURL = fileName
-	let img = {
-		data: fs.readFileSync(filePath),
-		contentType: 'image/jpg'
-	}
-	
-	req.body.img = img
-	req.body.created = new Date()
+	const ipfsURL = `https://api.pinata.cloud/pinning/pinFileToIPFS`;
+	let data = new FormData();
+	data.append('file', fs.createReadStream('./files/'+fileName));
 
-	var newNft = new NFT(req.body)
-	newNft.save(function(err, nft) {
-		if(err)
-			res.send(err)
-		res.json(nft)
+	axios.post(ipfsURL, data, {
+        maxBodyLength: 'Infinity', //this is needed to prevent axios from erroring out with large files
+        headers: {
+            'Content-Type': `multipart/form-data; boundary=${data._boundary}`,
+            pinata_api_key: process.env.PINATA_API_KEY,
+            pinata_secret_api_key: process.env.PINATA_SECRET_API_KEY
+        }
+    })
+    .then(response => {
+		const hash = response.data.IpfsHash
+		console.log('hash: ', hash)
+
+		req.body.ipfsHash = hash
+		var newNft = new NFT(req.body)
+		newNft.save(function(err, nft) {
+			if(err)
+				res.send(err)
+			res.json(nft)
+		})
 	})
-
+	.catch();
 }
