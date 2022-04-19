@@ -45,7 +45,7 @@ exports.create_a_nft = async function(req, res) {
 	let data = new FormData();
 	data.append('file', fs.createReadStream('./files/'+fileName));
 
-	axios.post(ipfsURL, data, {
+	let response = await axios.post(ipfsURL, data, {
         maxBodyLength: 'Infinity', //this is needed to prevent axios from erroring out with large files
         headers: {
             'Content-Type': `multipart/form-data; boundary=${data._boundary}`,
@@ -53,17 +53,13 @@ exports.create_a_nft = async function(req, res) {
             pinata_secret_api_key: process.env.PINATA_SECRET_API_KEY
         }
     })
-    .then(response => {
-		const hash = response.data.IpfsHash
-		console.log('hash: ', hash)
+	const hash = response.data.IpfsHash
+	req.body.ipfsHash = hash
 
-		req.body.ipfsHash = hash
-		var newNft = new NFT(req.body)
-		newNft.save(function(err, nft) {
-			if(err)
-				res.send(err)
-			res.json(nft)
-		})
+	var newNft = new NFT(req.body)
+	newNft.save(function(err, nft) {
+		if(err)
+			res.send(err)
+		res.json(nft)
 	})
-	.catch();
 }
