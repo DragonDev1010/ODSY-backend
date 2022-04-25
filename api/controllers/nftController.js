@@ -6,12 +6,27 @@ const fs = require('fs')
 const FormData = require('form-data');
 
 const axios = require('axios');
+const Web3 = require('web3')
+const nftABI = require("../../abi/nftABI.json")
+const nftAddr = "0xc871BeD55f7451C793d53d3e27554c58EE8DE0Ed"
 require('dotenv').config();
 
 delete process.env['http_proxy'];
 delete process.env['HTTP_PROXY'];
 delete process.env['https_proxy'];
 delete process.env['HTTPS_PROXY'];
+
+async function mint(hash) {
+	if (typeof web3 !== 'undefined') {
+		var web3 = new Web3(web3.currentProvider); 
+	} else {
+		var web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'));
+	}
+	const nftContract = new web3.eth.Contract(nftABI, nftAddr);
+	let userWalletAddr = await web3.eth.getAccounts()
+	const tx = await nftContract.methods.mint(hash).send({from: userWalletAddr[0], gas: 3000000})
+	return tx
+}
 
 function getDateName() {
 	let curDate = new Date()
@@ -54,12 +69,19 @@ exports.create_a_nft = async function(req, res) {
         }
     })
 	const hash = response.data.IpfsHash
-	req.body.ipfsHash = hash
+	console.log('pinata hash : ', hash)
+	let mintTransaction
+	if(hash !== null) 
+		mintTransaction = await mint(hash)
+	console.log('contract transaction: ', mintTransaction.transactionHash)
+	if(mintTransaction.transactionHash !== null) {
+		req.body.ipfsHash = hash
 
-	var newNft = new NFT(req.body)
-	newNft.save(function(err, nft) {
-		if(err)
-			res.send(err)
-		res.json(nft)
-	})
+		var newNft = new NFT(req.body)
+		newNft.save(function(err, nft) {
+			if(err)
+				res.send(err)
+			res.json(nft)
+		})
+	}
 }
