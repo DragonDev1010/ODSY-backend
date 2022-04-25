@@ -43,7 +43,7 @@ function getDateName() {
 	if(curDate.getSeconds() < 10 ) sec = '0' + sec;
 	return (year + month + date + hour + min + sec)
 }
-
+// https://gateway.pinata.cloud/ipfs/QmPAd7oqiiCqi7Z6LRWzaz8vhZeJT4jxmckWWeXydJsQwu
 exports.create_a_nft = async function(req, res) {
 	let fileName = req.body.title + '_' + getDateName() + '.jpeg'
 	let filePath = process.env.PWD + '/files/' + fileName 
@@ -57,13 +57,14 @@ exports.create_a_nft = async function(req, res) {
 	});
 
 	const ipfsURL = `https://api.pinata.cloud/pinning/pinFileToIPFS`;
-	let data = new FormData();
-	data.append('file', fs.createReadStream(process.env.PWD + '/files/'+fileName));
+	let pinataFormData = new FormData();
+	let imageData = fs.createReadStream(filePath) 
+	pinataFormData.append('file', imageData);
 
-	axios.post(ipfsURL, data, {
+	axios.post(ipfsURL, pinataFormData, {
 		maxBodyLength: 'Infinity', //this is needed to prevent axios from erroring out with large files
 		headers: {
-			'Content-Type': `multipart/form-data; boundary=${data._boundary}`,
+			'Content-Type': `multipart/form-data; boundary=${pinataFormData._boundary}`,
 			pinata_api_key: process.env.PINATA_API_KEY,
 			pinata_secret_api_key: process.env.PINATA_SECRET_API_KEY
 		}
@@ -72,6 +73,10 @@ exports.create_a_nft = async function(req, res) {
 			const hash = pinataRes.data.IpfsHash
 			console.log('pinata hash : ', hash)
 			req.body.ipfsHash = hash
+			req.body.img = {
+				data: fs.readFileSync(filePath),
+				contentType: 'image/jpeg'
+			}
 			var newNft = new NFT(req.body)
 			newNft.save(function(err, nft) {
 				if(err)
