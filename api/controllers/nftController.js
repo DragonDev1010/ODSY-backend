@@ -58,30 +58,40 @@ exports.create_a_nft = async function(req, res) {
 
 	const ipfsURL = `https://api.pinata.cloud/pinning/pinFileToIPFS`;
 	let data = new FormData();
-	data.append('file', fs.createReadStream('./files/'+fileName));
+	data.append('file', fs.createReadStream(process.env.PWD + '/files/'+fileName));
 
-	let response = await axios.post(ipfsURL, data, {
-        maxBodyLength: 'Infinity', //this is needed to prevent axios from erroring out with large files
-        headers: {
-            'Content-Type': `multipart/form-data; boundary=${data._boundary}`,
-            pinata_api_key: process.env.PINATA_API_KEY,
-            pinata_secret_api_key: process.env.PINATA_SECRET_API_KEY
-        }
-    })
-	const hash = response.data.IpfsHash
-	console.log('pinata hash : ', hash)
-	let mintTransaction
-	if(hash !== null) 
-		mintTransaction = await mint(hash)
-	console.log('contract transaction: ', mintTransaction.transactionHash)
-	if(mintTransaction.transactionHash !== null) {
-		req.body.ipfsHash = hash
-
-		var newNft = new NFT(req.body)
-		newNft.save(function(err, nft) {
-			if(err)
-				res.send(err)
-			res.json(nft)
+	axios.post(ipfsURL, data, {
+		maxBodyLength: 'Infinity', //this is needed to prevent axios from erroring out with large files
+		headers: {
+			'Content-Type': `multipart/form-data; boundary=${data._boundary}`,
+			pinata_api_key: process.env.PINATA_API_KEY,
+			pinata_secret_api_key: process.env.PINATA_SECRET_API_KEY
+		}
+	})
+		.then( pinataRes => {
+			const hash = pinataRes.data.IpfsHash
+			console.log('pinata hash : ', hash)
+			req.body.ipfsHash = hash
+			var newNft = new NFT(req.body)
+			newNft.save(function(err, nft) {
+				if(err)
+					res.send(err)
+				res.json(nft)
+			})
 		})
-	}
+		.catch(e => console.error(e))
+	// let mintTransaction
+	// if(hash !== null) 
+	// 	mintTransaction = await mint(hash)
+	// console.log('contract transaction: ', mintTransaction.transactionHash)
+	// if(mintTransaction.transactionHash !== null) {
+		// req.body.ipfsHash = hash
+
+		// var newNft = new NFT(req.body)
+		// newNft.save(function(err, nft) {
+		// 	if(err)
+		// 		res.send(err)
+		// 	res.json(nft)
+		// })
+	// }
 }

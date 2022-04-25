@@ -1,0 +1,79 @@
+[{
+  "_id": {
+    "$oid": "6266d24a2e6f90fd9be5ddf9"
+  },
+  "title": "cluster-1",
+  "description": "",
+  "saleMethod": 0,
+  "price": 10,
+  "royalty": 3,
+  "size": 0,
+  "ipfsHash": "QmPAd7oqiiCqi7Z6LRWzaz8vhZeJT4jxmckWWeXydJsQwu",
+  "favUsers": [],
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6266d7d32e6f90fd9be5ddfb"
+  },
+  "title": "cluster-2",
+  "description": "",
+  "saleMethod": 0,
+  "price": 5,
+  "royalty": 5,
+  "size": 0,
+  "ipfsHash": "QmPhUEELMZ3iVnx8gR4BGVtYyhkitLieUavHdcA7VrwHxy",
+  "favUsers": [],
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6266d7f52e6f90fd9be5ddfd"
+  },
+  "title": "galaxy-1",
+  "description": "",
+  "saleMethod": 0,
+  "price": 15,
+  "royalty": 2,
+  "size": 0,
+  "ipfsHash": "Qme8JTTyWLq182NWz5JqLLurjyisotQvgEKTr5gMaLjY39",
+  "favUsers": [],
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6266d8122e6f90fd9be5ddff"
+  },
+  "title": "galaxy-2",
+  "description": "",
+  "saleMethod": 0,
+  "price": 20,
+  "royalty": 2,
+  "size": 0,
+  "ipfsHash": "QmfAyqB32fzAKjQ3JS5xciT2NL3R9bC6iAPhAnCLT6KwUt",
+  "favUsers": [],
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6266d8322e6f90fd9be5de01"
+  },
+  "title": "lunar-1",
+  "description": "",
+  "saleMethod": 0,
+  "price": 25,
+  "royalty": 4,
+  "size": 0,
+  "ipfsHash": "QmYKyjrGk4ZqSvVAaBzH5BVN9jiZQZQuGbjtUTTVZgxJV3",
+  "favUsers": [],
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6266d8542e6f90fd9be5de03"
+  },
+  "title": "lunar-2",
+  "description": "",
+  "saleMethod": 0,
+  "price": 30,
+  "royalty": 5,
+  "size": 0,
+  "ipfsHash": "QmdnTKe3q7PG9Tg5f8jFJe1LwAkjcW67s4chq6vA2HGPSy",
+  "favUsers": [],
+  "__v": 0
+}]
