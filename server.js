@@ -32,6 +32,11 @@ Nft = require('./api/models/nftModel')
 var nftRoutes = require('./api/routes/nftRoutes')
 nftRoutes(app)
 
+// User Table
+User = require('./api/models/userModel')
+var userRoutes = require('./api/routes/userRoutes')
+userRoutes(app)
+
 app.listen(port)
 
 console.log('RESTful API server started on: ' + port)

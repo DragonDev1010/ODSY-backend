@@ -20,7 +20,8 @@ var NFTSchema = new Schema({
 
     ipfsHash: String,
 
-    favUsers: [String],
+    // favUsers: [String],
+    followerCnt: {type: Number, default: 0},
     img: { data: Buffer, contentType: String}
 })
 module.exports = mongoose.model('nft', NFTSchema)

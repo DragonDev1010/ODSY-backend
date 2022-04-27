@@ -8,7 +8,7 @@ const FormData = require('form-data');
 const axios = require('axios');
 const Web3 = require('web3')
 const nftABI = require("../../abi/nftABI.json")
-const nftAddr = "0xc871BeD55f7451C793d53d3e27554c58EE8DE0Ed"
+const nftAddr = "0x9315f69Bf5A6E7fA76a43BBc601499b714D17F5B"
 require('dotenv').config();
 
 delete process.env['http_proxy'];
@@ -44,7 +44,7 @@ function getDateName() {
 	return (year + month + date + hour + min + sec)
 }
 // https://gateway.pinata.cloud/ipfs/QmPAd7oqiiCqi7Z6LRWzaz8vhZeJT4jxmckWWeXydJsQwu
-exports.create_a_nft = async function(req, res) {
+exports.createNft = async function(req, res) {
 	let fileName = req.body.title + '_' + getDateName() + '.jpeg'
 	let filePath = process.env.PWD + '/files/' + fileName 
 	
@@ -89,8 +89,10 @@ exports.create_a_nft = async function(req, res) {
 	// if(hash !== null) 
 	// 	mintTransaction = await mint(hash)
 	// console.log('contract transaction: ', mintTransaction.transactionHash)
+	// console.log('mint transaction: ', mintTransaction.events.Transfer.returnValues.tokenId)
 	// if(mintTransaction.transactionHash !== null) {
 		// req.body.ipfsHash = hash
+		// req.body.nft_id = mintTransaction.events.Transfer.returnValues.tokenId
 
 		// var newNft = new NFT(req.body)
 		// newNft.save(function(err, nft) {
@@ -99,4 +101,26 @@ exports.create_a_nft = async function(req, res) {
 		// 	res.json(nft)
 		// })
 	// }
+}
+
+exports.getNfts = async function(req, res) {
+	let filters = req.query
+	NFT.find(function(err, nfts) {
+		if (err)
+			res.send(err);
+		res.json(nfts);
+	})
+}
+
+exports.updateNft = async function(req, res) {
+	NFT.findOneAndUpdate(
+        {nft_id: req.params.nftId}, 
+        req.body,
+        {new: true},
+        function(err, user) {
+            if (err)
+              res.send(err);
+            res.json(user);
+        }
+    )
 }
