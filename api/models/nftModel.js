@@ -9,6 +9,7 @@ var NFTSchema = new Schema({
     description: String,
     saleMethod: Number,
     price: Number,
+    chainId: Number,
     curType: Number,
     royalty: Number,
     size: Number,
