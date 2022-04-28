@@ -105,11 +105,21 @@ exports.createNft = async function(req, res) {
 
 exports.getNfts = async function(req, res) {
 	let filters = req.query
-	NFT.find(function(err, nfts) {
-		if (err)
-			res.send(err);
-		res.json(nfts);
-	})
+	let params = req.params.nftId
+	let query;
+	if (params != undefined)
+		query = {nft_id: params}
+	else
+		query = {}
+	
+	NFT.find(
+		query,
+		function(err, nfts) {
+			if (err)
+				res.send(err);
+			res.json(nfts);
+		}
+	)
 }
 
 exports.updateNft = async function(req, res) {

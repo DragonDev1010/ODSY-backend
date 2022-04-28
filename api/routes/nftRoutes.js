@@ -4,6 +4,7 @@ module.exports = function(app) {
 
     app.route('/nft/:nftId')
         .put(controller.updateNft)
+        .get(controller.getNfts)
 
     app.route('/nfts')
         .post(controller.createNft)

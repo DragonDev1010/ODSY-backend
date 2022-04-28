@@ -9,7 +9,7 @@ var NFTSchema = new Schema({
     description: String,
     saleMethod: Number,
     price: Number,
-    chainId: Number,
+    chainId: Number, // {1: bnb, 2: eth, 3: poly, 4: sol}
     curType: Number,
     royalty: Number,
     size: Number,
