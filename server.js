@@ -37,6 +37,11 @@ User = require('./api/models/userModel')
 var userRoutes = require('./api/routes/userRoutes')
 userRoutes(app)
 
+// Offer Table
+Offer = require('./api/models/offerModel')
+var offerRoutes = require('./api/routes/offerRoutes')
+offerRoutes(app)
+
 app.listen(port)
 
 console.log('RESTful API server started on: ' + port)

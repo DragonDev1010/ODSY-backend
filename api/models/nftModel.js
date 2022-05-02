@@ -10,14 +10,14 @@ var NFTSchema = new Schema({
     saleMethod: Number,
     price: Number,
     chainId: Number, // {1: bnb, 2: eth, 3: poly, 4: sol}
-    curType: Number,
+    curType: Number, // {0: native token, 1: $ODSY}
     royalty: Number,
     size: Number,
     collect: Number,
 
     creatorAddr: String,
     ownerAddr: String,
-    created: Date,
+    created: {type: Date, default: Date.now},
 
     ipfsHash: String,
 
