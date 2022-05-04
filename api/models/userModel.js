@@ -3,10 +3,11 @@ var mongoose = require('mongoose')
 var Schema = mongoose.Schema
 
 var UserSchema = new Schema({
-    wallet: String,
     name: String,
+    avatar: { data: Buffer, contentType: String},
+    wallet: String,
+
     favIds: Array,
-    
-    avatar: { data: Buffer, contentType: String}
+    created: { type: Date, default: Date.now }
 })
 module.exports = mongoose.model('user', UserSchema)
