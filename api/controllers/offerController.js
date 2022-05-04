@@ -11,3 +11,21 @@ exports.createOffer = async function(req, res) {
         res.json()
     })
 }
+
+exports.getOffer = function(req, res) {
+    let tokenId = req.params.tokenId // type string tokenId
+    let query
+    if (tokenId !== undefined) 
+        query = {nft_id: tokenId}
+    else
+        query = {}
+
+    Offer.find(
+        query,
+        function(err, offers) {
+            if(err)
+                res.send(err)
+            res.json(offers)
+        }
+    )
+}

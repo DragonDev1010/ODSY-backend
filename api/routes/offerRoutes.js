@@ -5,4 +5,7 @@ module.exports = function (app) {
 
     app.route('/offers')
         .post(controller.createOffer)
+        .get(controller.getOffer)
+    app.route('/offers/:tokenId')
+        .get(controller.getOffer)
 }
