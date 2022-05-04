@@ -42,6 +42,11 @@ Offer = require('./api/models/offerModel')
 var offerRoutes = require('./api/routes/offerRoutes')
 offerRoutes(app)
 
+// Cluster Table
+Cluster = require('./api/models/clusterModel')
+var clusterRoutes = require('./api/routes/clusterRoutes')
+clusterRoutes(app)
+
 app.listen(port)
 
 console.log('RESTful API server started on: ' + port)
