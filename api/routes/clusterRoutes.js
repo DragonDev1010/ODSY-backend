@@ -5,4 +5,5 @@ module.exports = function(app) {
 
     app.route('/collects')
         .post(controller.createCluster)
+        .get(controller.getClusters)
 }
