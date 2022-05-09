@@ -43,8 +43,8 @@ exports.getNfts = async function(req, res) {
 	let query  = req.query
 	if(params != undefined)
 		query['nft_id'] = params
-	
-	console.log(query)
+	if(query.maxPrice !== undefined && query.minPrice !== undefined)
+		query['price'] = {$lte: query.maxPrice, $gte: query.minPrice}
 	NFT.find(
 		query,
 		function(err, nfts) {

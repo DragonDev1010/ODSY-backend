@@ -12,8 +12,9 @@ var NFTSchema = new Schema({
     chainId: {type: Number, default: 0}, // {1: bnb, 2: eth, 3: poly, 4: sol}
     curType: {type: Number, default: 0}, // {0: native token, 1: $ODSY}
     royalty: {type: Number, default: 0},
-    size: Number,
     collect: {type: Number, default: 0},
+    size: Number,
+    category: {type: Number, default: 0},
 
     creatorAddr: String,
     ownerAddr: String,
