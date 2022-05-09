@@ -25,7 +25,11 @@ var NFTSchema = new Schema({
     followerCnt: {type: Number, default: 0},
     img: { data: Buffer, contentType: String},
 
-    // auctionEndsIn: {type: Date, default: new Date(+new Date() - 1000*60*60*24*365*100)}
-    auctionEndsIn: {type: Date, default: new Date('1900-01-01T00:00:00.000Z')}
+    // Auction Information
+    auctionStartPrice: Number,
+    auctionStartIn: {type: Date, default: new Date('1900-01-01T00:00:00.000Z')},
+    auctionEndIn: {type: Date, default: new Date('1900-01-01T00:00:00.000Z')},
+    auctionHighestBid: Number,
+    auctionHighestBidder: String
 })
 module.exports = mongoose.model('nft', NFTSchema)
