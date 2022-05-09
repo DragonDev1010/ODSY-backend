@@ -5,6 +5,7 @@ var Schema = mongoose.Schema
 var OfferSchema = new Schema({
     nft_id: Number,
     offerPrice: {type: Number, default: 0},
+    currency: {type: Number, default: 0}, // {0: Native, 1: ODSY}
     offerCreator: String,
     expireDay: {type: Number, default: 3}, // 3 Day
     state: {type: Number, default: 0}, // {0: open, 1: accepted, 2: declined}
