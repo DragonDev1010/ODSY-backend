@@ -6,6 +6,7 @@ var ClusterSchema = new Schema({
     id:Number,
     name: String,
     creator: String,
+    volume: Number,
     verified: {type: Boolean, default: false},
     logoImg: { data: Buffer, contentType: String},
     created: {type: Date, default: Date.now}
