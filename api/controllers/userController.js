@@ -44,9 +44,11 @@ exports.updateUser = function(req, res) {
     )
 }
 
-exports.getUserInfo = function(req, res) {
+exports.getUser = function(req, res) {
+    let query = req.query
+    query['wallet'] = { $regex : new RegExp(req.params.wallet, "i") }
     User.find(
-        {wallet: { $regex : new RegExp(req.params.wallet, "i") }}, // Tag `i` sets case-insenitive
+        query,
         function(err, user) {
             if (err)
                 res.send(err)

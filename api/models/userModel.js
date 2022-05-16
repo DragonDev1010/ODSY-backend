@@ -8,6 +8,7 @@ var UserSchema = new Schema({
     wallet: String,
 
     favIds: Array,
-    created: { type: Date, default: Date.now }
+    created: { type: Date, default: Date.now },
+    topSeller: {type: Boolean, default: false}
 })
 module.exports = mongoose.model('user', UserSchema)

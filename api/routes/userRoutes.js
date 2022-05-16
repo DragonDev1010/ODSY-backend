@@ -4,7 +4,8 @@ module.exports = function(app) {
 
     app.route('/users')
         .post(controller.createUser)
+        .get(controller.getUser)
     app.route('/user/:wallet')
         .put(controller.updateUser)
-        .get(controller.getUserInfo)
+        .get(controller.getUser)
 }
