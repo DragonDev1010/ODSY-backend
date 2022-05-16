@@ -31,13 +31,10 @@ exports.createCluster = async function (req, res) {
 }
 
 exports.getClusters = function (req, res) {
-    let filters = req.query
-	let params = req.params.collectionId
-	let query;
-	if (params != undefined)
+	let query = req.query
+	let params = req.params.collectId
+	if(params != undefined)
 		query = {id: params}
-	else
-		query = {}
 	
 	Cluster.find(
 		query,
@@ -45,6 +42,26 @@ exports.getClusters = function (req, res) {
 			if (err)
 				res.send(err);
 			res.json(nfts);
+		}
+	)
+}
+
+exports.updateCluster = function (req, res) {
+	let params = req.params.collectId
+	let query
+	if (params != undefined)
+		query = {id: params}
+	else
+		query = {}
+
+	Cluster.findOneAndUpdate(
+		query, 
+		req.body,
+		{new: true},
+		function(err, user) {
+			if (err)
+				res.send(err);
+			res.json(user);
 		}
 	)
 }
