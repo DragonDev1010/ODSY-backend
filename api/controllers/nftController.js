@@ -45,6 +45,22 @@ exports.getNfts = async function(req, res) {
 		query['nft_id'] = params
 	if(query.maxPrice !== undefined && query.minPrice !== undefined)
 		query['price'] = {$lte: query.maxPrice, $gte: query.minPrice}
+	
+	if(query.saleMethod != undefined)
+		query['saleMethod'] = {$in: query.saleMethod.split(',').map(function(item) {
+			return parseInt(item, 10)
+		})}
+	
+	if(query.collect != undefined)
+		query['collect'] = {$in: query.collect.split(',').map(function(item) {
+			return parseInt(item, 10)
+		})}
+	
+	if(query.chainId != undefined)
+		query['chainId'] = {$in: query.chainId.split(',').map(function(item) {
+			return parseInt(item, 10)
+		})}
+
 	NFT.find(
 		query,
 		function(err, nfts) {
