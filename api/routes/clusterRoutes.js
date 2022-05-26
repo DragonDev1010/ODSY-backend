@@ -8,4 +8,5 @@ module.exports = function(app) {
         .get(controller.getClusters)
     app.route('/collect/:collectId')
         .put(controller.updateCluster)
+        .get(controller.getClusters)
 }
