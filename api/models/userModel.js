@@ -10,6 +10,7 @@ var UserSchema = new Schema({
     favIds: Array,
     created: { type: Date, default: Date.now },
     topSeller: {type: Boolean, default: false},
-    admin: {type: Boolean, default: false} // {true: admin role, false: non-admin role}
+    admin: {type: Boolean, default: false}, // {true: admin role, false: non-admin role}
+    approved: {type: Boolean, default: false}
 })
 module.exports = mongoose.model('user', UserSchema)
