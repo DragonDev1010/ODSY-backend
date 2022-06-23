@@ -47,6 +47,11 @@ Cluster = require('./api/models/clusterModel')
 var clusterRoutes = require('./api/routes/clusterRoutes')
 clusterRoutes(app)
 
+// Activity Table
+Activity = require('./api/models/activityModel')
+var activityRoutes = require('./api/routes/activityRoutes')
+activityRoutes(app)
+
 app.listen(port)
 
 console.log('RESTful API server started on: ' + port)
