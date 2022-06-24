@@ -5,4 +5,5 @@ module.exports = function(app) {
 
     app.route('/activities')
         .post(controller.createActivity)
+        .get(controller.getActivities)
 }
